@@ -1,0 +1,3 @@
+class Modules::WatchMyStreet
+
+end

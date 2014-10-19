@@ -1,0 +1,3 @@
+class Modules::LowerHutt
+
+end
