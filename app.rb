@@ -5,6 +5,7 @@ require 'json'
 require 'httparty'
 require 'nokogiri'
 require 'pry'
+require 'pp'
 
 module Modules
 
@@ -14,5 +15,5 @@ require_all 'modules'
 include Modules
 
 get '/search' do
-  WatchMyStreet.new.get_info(params[:q]).to_json
+  LowerHutt.new.get_info(params[:q]).to_json
 end
