@@ -138,46 +138,50 @@ class Modules::LowerHutt
   end
 
   def get_info(address)
-    response = JSON.parse(HTTParty.post(URL, body: INITIAL_DATA).body)
-    context = {
-        instance_id: response['instanceId'],
-        form_instance_id: response['pendingExternalActivities'][0]['instanceId'],
-        instance_data: response['instanceData']
-    }
-    #pp response
-    puts response['pendingExternalActivities'][0]['displayName']
+    requester = Requester.new(URL)
+    requester.initial_request INITIAL_DATA
 
-    context = do_request context, POLL_FOR_READY_WORKFLOW
-    context[:command_id] = '1.166'
-    context = do_request context, EXT_COMMAND
-    context[:command_id] = '1.164'
-    context = do_request context, EXT_COMMAND
-    context[:command_id] = '1.162'
-    context = do_request context, EXT_COMMAND
-    context[:command_id] = '1.159'
-    context = do_request context, EXT_COMMAND
+    requester.request POLL_FOR_READY_WORKFLOW
+    requester.request EXT_COMMAND, command_id: '1.166'
+    requester.request EXT_COMMAND, command_id: '1.164'
+    requester.request EXT_COMMAND, command_id: '1.162'
+    requester.request EXT_COMMAND, command_id: '1.159'
+    requester.request ADDRESS_SEARCH_WORKFLOW
+    response = requester.request GET_RESULTS_WORKFLOW
 
-    context = do_request context, ADDRESS_SEARCH_WORKFLOW
-    #sleep 1
-    context = do_request context, GET_RESULTS_WORKFLOW
-
+    response
 
   end
 
-  def do_request(context, workflow_data)
-    request_data = {f: 'json'}
-    request_data['workflow'] = workflow_data.to_json % context
-    #puts "\nRequest:\n\n"
-    #pp request_data
-    response = JSON.parse(HTTParty.post(URL, body: request_data).body)
-    #puts "\n"
-    #pp response
-    puts response['pendingExternalActivities'][0]['displayName']
-    {
+
+end
+
+class Requester
+  @context = {}
+
+  def initialize(url)
+    @url = url
+  end
+
+  def initial_request(initial_data)
+    response = JSON.parse(HTTParty.post(@url, body: initial_data).body)
+    @context = {
       instance_id: response['instanceId'],
       form_instance_id: response['pendingExternalActivities'][0]['instanceId'],
       instance_data: response['instanceData']
     }
+  end
+
+  def request(workflow_data, params = {})
+    request_data = {f: 'json'}
+    request_data['workflow'] = workflow_data.to_json % @context.merge(params)
+    response = JSON.parse(HTTParty.post(@url, body: request_data).body)
+    @context = {
+      instance_id: response['instanceId'],
+      form_instance_id: response['pendingExternalActivities'][0]['instanceId'],
+      instance_data: response['instanceData']
+    }
+    response
   end
 
 end
