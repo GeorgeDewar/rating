@@ -15,5 +15,6 @@ require_all 'modules'
 include Modules
 
 get '/search' do
+  content_type :json
   LowerHutt.new.get_info(params[:q]).to_json
 end

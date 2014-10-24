@@ -149,7 +149,10 @@ class Modules::LowerHutt
     requester.request ADDRESS_SEARCH_WORKFLOW
     response = requester.request GET_RESULTS_WORKFLOW
 
-    response
+    pp response['pendingExternalActivities'][0]['inputs'].find { |x| x['name'] == 'FeatureSet' }['value']['features'][0]['attributes']
+    results = response['pendingExternalActivities'][0]['inputs'].find { |x| x['name'] == 'FeatureSet' }['value']['features'][0]['attributes']
+
+    {valuation: results['capital_value'], land_area: results['prop_area'], raw: results}
 
   end
 
