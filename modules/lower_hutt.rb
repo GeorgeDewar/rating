@@ -149,6 +149,7 @@ class Modules::LowerHutt
     requester.request ADDRESS_SEARCH_WORKFLOW, address: address_text
     response = requester.request GET_RESULTS_WORKFLOW
 
+    return {error: 'NO_RESULTS'} if response['pendingExternalActivities'][0]['id'] == '1.53'
     results = response['pendingExternalActivities'][0]['inputs'].find { |x| x['name'] == 'FeatureSet' }['value']['features'][0]['attributes']
 
     {valuation: results['capital_value'], land_area: results['prop_area'], raw: results}
