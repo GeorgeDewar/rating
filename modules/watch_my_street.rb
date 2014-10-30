@@ -5,6 +5,10 @@ class Modules::WatchMyStreet
   SEARCH_URL = BASE_URL + '/cities.json?q=%s'
   DATA_URL = BASE_URL + '%s'
 
+  def self.name
+    'WatchMyStreet'
+  end
+
   def self.matches(address)
     return address[:city].downcase == 'Wellington'.downcase
   end

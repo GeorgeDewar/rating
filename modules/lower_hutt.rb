@@ -131,7 +131,11 @@ class Modules::LowerHutt
       "workflowData" => nil,
       "instanceData" => "%{instance_data}"
   }
-  
+
+  def self.name
+    'Lower Hutt City Council'
+  end
+
   def self.matches(address)
     return address[:city].downcase == 'Lower Hutt'.downcase
   end

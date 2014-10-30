@@ -35,7 +35,7 @@ get '/search' do
   search_module = Modules.modules_matching(address).first
   return {error: :region_not_supported}.to_json unless search_module
 
-  search_module.new.get_info(address).to_json
+  (search_module.new.get_info(address)).merge({source: search_module.to_s.split('::').last, source_name: search_module.name}).to_json
 end
 
 private
