@@ -29,7 +29,13 @@ class Modules::WatchMyStreet
     land_area = get_attribute(page, 'Land Area').gsub('m2', '').to_i
     building_age = get_attribute page, 'Building Age'
 
-    {valuation: valuation, floor_area: floor_area, land_area: land_area, building_age: building_age}
+    {
+        valuation: valuation,
+        floor_area: floor_area,
+        land_area: land_area,
+        building_age: building_age,
+        source_url: data_url
+    }
   end
 
   private

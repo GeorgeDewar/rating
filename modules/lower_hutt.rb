@@ -156,7 +156,12 @@ class Modules::LowerHutt
     return {error: :property_not_found} if response['pendingExternalActivities'][0]['id'] == '1.53'
     results = response['pendingExternalActivities'][0]['inputs'].find { |x| x['name'] == 'FeatureSet' }['value']['features'][0]['attributes']
 
-    {valuation: results['capital_value'], land_area: results['prop_area'], raw: results}
+    {
+        valuation: results['capital_value'],
+        land_area: results['prop_area'],
+        source_url: 'http://gisweb.huttcity.govt.nz/Html5Viewer/index.html?viewer=huttcity',
+        raw: results
+    }
   end
 
 end

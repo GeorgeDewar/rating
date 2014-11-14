@@ -37,11 +37,24 @@ get '/search' do
   search_module = Modules.modules_matching(address).first
   return {error: :region_not_supported}.to_json unless search_module
 
-  (search_module.new.get_info(address)).merge({source: search_module.to_s.split('::').last, source_name: search_module.name}).to_json
+  source = underscore(search_module.to_s.split('::').last)
+  (search_module.new.get_info(address)).merge({
+          source: source,
+          source_name: search_module.name,
+          icon: "/img/#{source}.png"
+      }).to_json
 end
 
 private
 
 def normalise_address(address)
   address.split.map(&:capitalize).join(' ')
+end
+
+def underscore(camel_cased_word)
+  camel_cased_word.to_s.gsub(/::/, '/').
+      gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
+      gsub(/([a-z\d])([A-Z])/,'\1_\2').
+      tr("-", "_").
+      downcase
 end
