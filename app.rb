@@ -8,6 +8,8 @@ require 'pry'
 require 'pp'
 require 'ostruct'
 
+set :protection, :except => [:json_csrf]
+
 module Modules
   def self.modules_matching(address)
     modules.select { |m| m.matches address }
