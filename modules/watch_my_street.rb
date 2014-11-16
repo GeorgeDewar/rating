@@ -25,8 +25,8 @@ class Modules::WatchMyStreet
     page = Nokogiri::HTML(HTTParty.get(data_url).body)
 
     valuation = page.css('ul.valuation li:first em').text.gsub(' K', '000').gsub('$', '').to_i
-    floor_area = get_attribute(page, 'Floor Area').gsub('m2', '').to_i
-    land_area = get_attribute(page, 'Land Area').gsub('m2', '').to_i
+    floor_area = get_attribute(page, 'Floor Area').gsub('m2', '').gsub(',', '').to_i
+    land_area = get_attribute(page, 'Land Area').gsub('m2', '').gsub(',', '').to_i
     building_age = get_attribute page, 'Building Age'
 
     {
