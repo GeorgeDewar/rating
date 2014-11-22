@@ -1,4 +1,4 @@
-class Modules::LowerHutt
+class Modules::LowerHutt < RatingModule
 
   #SEARCH_URL = 'http://gisweb.huttcity.govt.nz/arcgis/rest/services/Essentials/Livelayers/MapServer/21/query?f=json&where=UPPER(prop_address)%20LIKE%20UPPER(%27%{address}%27)&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=prop_address'
   URL = 'http://gisweb.huttcity.govt.nz/Geocortex/Essentials/Essentials_4.1.2/REST/sites/HCC/workflows/New_Address_Search/run'
@@ -141,7 +141,7 @@ class Modules::LowerHutt
   end
 
   def get_info(address)
-    address_text = (address[:address] + ' ' + address[:suburb].upcase)
+    address_text = (full_form_street_address(address[:address]) + ' ' + address[:suburb].upcase)
 
     requester = Requester.new(URL)
     requester.initial_request INITIAL_DATA

@@ -1,4 +1,4 @@
-class Modules::WatchMyStreet
+class Modules::WatchMyStreet < RatingModule
 
   BASE_URL = 'http://www.watchmystreet.co.nz'
 
@@ -14,7 +14,7 @@ class Modules::WatchMyStreet
   end
 
   def get_info(address)
-    search_url = SEARCH_URL % URI.encode_www_form_component("#{address.address} #{address.suburb}")
+    search_url = SEARCH_URL % URI.encode_www_form_component("#{full_form_street_address(address[:address])} #{address.suburb}")
     puts search_url
     results = JSON.parse(HTTParty.get(search_url).body)
     return {error: :property_not_found} if results.empty?
