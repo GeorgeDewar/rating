@@ -53,7 +53,7 @@ class RatingModule
   def full_form_street_address(address)
     words = address.split
     words.reverse.each do |word|
-      word.gsub!(Regexp.union(STREET_MAPPING.keys), STREET_MAPPING) || break
+      word.replace STREET_MAPPING[word] || break
     end
     words.join ' '
   end
