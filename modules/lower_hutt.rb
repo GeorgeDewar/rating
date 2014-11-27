@@ -1,6 +1,6 @@
 class Modules::LowerHutt < RatingModule
 
-  #SEARCH_URL = 'http://gisweb.huttcity.govt.nz/arcgis/rest/services/Essentials/Livelayers/MapServer/21/query?f=json&where=UPPER(prop_address)%20LIKE%20UPPER(%27%{address}%27)&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=prop_address'
+  #SEARCH_URL = 'http://gisweb.huttcity.govt.nz/arcgis/rest/services/Essentials/Livelayers/MapServer/21/query?f=json&where=UPPER(prop_address)%20LIKE%20UPPER(%27%{address}%25%27)&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=prop_address'
   URL = 'http://gisweb.huttcity.govt.nz/Geocortex/Essentials/Essentials_4.1.2/REST/sites/HCC/workflows/New_Address_Search/run'
   INITIAL_DATA = {
     f: 'json',
