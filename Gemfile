@@ -1,7 +1,7 @@
 source "http://rubygems.org"
 
 gem 'sinatra'
-gem 'unicorn'
+gem 'puma'
 gem 'nokogiri'
 gem 'require_all'
 gem 'httparty'
